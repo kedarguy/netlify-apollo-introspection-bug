@@ -32,7 +32,7 @@ const localSchema = makeExecutableSchema({
 const createRemoteSchema = async () => {
   const remoteSchemaLink = createHttpLink({
     uri: `https://api-uswest.graphcms.com/v1/cjs0xy18i740h01f96jatko7r/master`,
-    fetch: fetch.default
+    fetch: fetch.default // instead of `fetch: fetch`
   });
 
   const schema = await introspectSchema(remoteSchemaLink);
