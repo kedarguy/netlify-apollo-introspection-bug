@@ -5,10 +5,10 @@ const {
   makeExecutableSchema,
   makeRemoteExecutableSchema,
   mergeSchemas
-} = require("apollo-server-lambda");
+} = require('apollo-server-lambda');
 
-const { createHttpLink } = require("apollo-link-http");
-const fetch = require("node-fetch");
+const { createHttpLink } = require('apollo-link-http');
+const fetch = require('node-fetch');
 
 // Construct a schema, using GraphQL schema language
 const typeDefs = gql`
@@ -20,7 +20,7 @@ const typeDefs = gql`
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
-    hello: () => "Hello world 8!"
+    hello: () => 'Hello world 8!'
   }
 };
 
@@ -32,7 +32,7 @@ const localSchema = makeExecutableSchema({
 const createRemoteSchema = async () => {
   const remoteSchemaLink = createHttpLink({
     uri: `https://api-uswest.graphcms.com/v1/cjs0xy18i740h01f96jatko7r/master`,
-    fetch
+    fetch: fetch.default
   });
 
   const schema = await introspectSchema(remoteSchemaLink);
@@ -57,9 +57,9 @@ const run = async (event, context) => {
   try {
     const remoteSchema = await createRemoteSchema();
     schemaArr.push(remoteSchema);
-    console.log("sucess with remote");
+    console.log('sucess with remote');
   } catch (err) {
-    console.log("failed with remote schema", err);
+    console.log('failed with remote schema', err);
   }
   const schemas = mergeSchemas({
     schemas: schemaArr
@@ -71,9 +71,9 @@ const run = async (event, context) => {
   });
   const handler = server.createHandler({
     cors: {
-      origin: "*",
+      origin: '*',
       credentials: true,
-      allowedHeaders: ["ContentType", "content-type", "Origin", "Accept"]
+      allowedHeaders: ['ContentType', 'content-type', 'Origin', 'Accept']
     }
   });
   const response = await runHandler(event, context, handler);
